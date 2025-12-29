@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy New Year ❤️</title>
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.container {
+  text-align: center;
+  color: #fff;
+  max-width: 600px;
+}
+
+h1, p {
+  opacity: 0;
+  transition: opacity 1.5s;
+}
+
+button {
+  background: #fff;
+  color: #ff5f7e;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.hearts {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.heart {
+  position: absolute;
+  bottom: -20px;
+  color: rgba(255,255,255,0.8);
+  animation: float 6s infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-800px); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="hearts" id="hearts"></div>
+
+<div class="container">
+  <h1 id="t1">Hey… 💕</h1>
+  <p id="t2">This is for someone very special</p>
+  <button onclick="next()">Tap to continue</button>
+</div>
+
+<script>
+let step = 0;
+const t1 = document.getElementById("t1");
+const t2 = document.getElementById("t2");
+
+t1.style.opacity = 1;
+
+function next() {
+  step++;
+  if (step === 1) {
+    t2.style.opacity = 1;
+  }
+  if (step === 2) {
+    t1.innerText = "To the girl who makes my heart full ❤️";
+    t2.innerText = "";
+  }
+  if (step === 3) {
+    t2.innerText = "May your New Year sparkle with joy ✨";
+    t2.style.opacity = 1;
+  }
+  if (step === 4) {
+    t1.innerText = "Dreams realized 🌟";
+    t2.innerText = "And endless happiness 😊";
+  }
+  if (step === 5) {
+    t1.innerText = "I love you ❤️";
+    t2.innerText = "— Keshav";
+    createHearts();
+  }
+}
+
+function createHearts() {
+  const hearts = document.getElementById("hearts");
+  setInterval(() => {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.innerHTML = "❤️";
+    h.style.left = Math.random() * 100 + "%";
+    h.style.fontSize = (20 + Math.random() * 20) + "px";
+    hearts.appendChild(h);
+    setTimeout(() => h.remove(), 6000);
+  }, 300);
+}
+</script>
+
+</body>
+</html>
