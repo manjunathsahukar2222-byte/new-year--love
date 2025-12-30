@@ -103,9 +103,10 @@ button:hover {
 </div>
 
 <!-- 🎵 Background Music -->
-<audio id="bgm" loop preload="auto">
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+<audio id="bgm" loop>
+  <source src="co2.mp3" type="audio/mpeg">
 </audio>
+
 
 <script>
 const title = document.getElementById("title");
@@ -140,14 +141,10 @@ function typeText(el, msg, speed = 40) {
 }
 
 function next() {
+  // 🎵 start music ONLY after click
   if (!musicStarted) {
-    music.muted = false;
-    music.volume = 0.5;
-    music.play().then(() => {
-      console.log("Music started");
-    }).catch(err => {
-      console.log("Audio blocked", err);
-    });
+    music.volume = 1.0;
+    music.play().catch(() => {});
     musicStarted = true;
   }
 
@@ -173,9 +170,4 @@ function surprise() {
   document.body.appendChild(heart);
   setTimeout(() => heart.remove(), 6000);
 }
-
-next(); // auto start
 </script>
-
-</body>
-</html>
