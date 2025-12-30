@@ -2,115 +2,173 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Happy New Year ❤️</title>
+<title>Heyy Vaishnavi 💖</title>
+
 <style>
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
   height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(-45deg, #ff758c, #ff7eb3, #fad0c4, #ffd1ff);
+  background-size: 400% 400%;
+  animation: gradientBG 10s ease infinite;
   overflow: hidden;
+}
+
+@keyframes gradientBG {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
 }
 
 .container {
   text-align: center;
-  color: #fff;
-  max-width: 600px;
+  color: white;
+  max-width: 680px;
+  padding: 20px;
 }
 
-h1, p {
-  opacity: 0;
-  transition: opacity 1.5s;
+h1 {
+  font-size: 2.8em;
+  min-height: 80px;
+}
+
+p {
+  font-size: 1.4em;
+  min-height: 70px;
 }
 
 button {
-  background: #fff;
-  color: #ff5f7e;
+  background: white;
+  color: #ff4d6d;
   border: none;
-  padding: 12px 24px;
-  border-radius: 30px;
+  padding: 14px 30px;
+  border-radius: 40px;
   font-size: 16px;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 25px;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.hearts {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px rgba(255,255,255,0.8);
 }
 
 .heart {
   position: absolute;
   bottom: -20px;
-  color: rgba(255,255,255,0.8);
-  animation: float 6s infinite;
+  font-size: 24px;
+  animation: floatUp 6s linear infinite;
 }
 
-@keyframes float {
+@keyframes floatUp {
   0% { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(-800px); opacity: 0; }
+  100% { transform: translateY(-900px); opacity: 0; }
+}
+
+.secret {
+  display: none;
+  margin-top: 25px;
+  font-size: 1.2em;
+  background: rgba(255,255,255,0.15);
+  padding: 20px;
+  border-radius: 20px;
+  animation: fadeIn 2s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: scale(0.9);}
+  to {opacity: 1; transform: scale(1);}
 }
 </style>
 </head>
 
 <body>
 
-<div class="hearts" id="hearts"></div>
-
 <div class="container">
-  <h1 id="t1">Hey… 💕</h1>
-  <p id="t2">This is for someone very special</p>
-  <button onclick="next()">Tap to continue</button>
+  <h1 id="title"></h1>
+  <p id="text"></p>
+  <button onclick="next()">Tap again 👀✨</button>
+
+  <div class="secret" id="secret">
+    💌 <br><br>
+    You're the one who makes my heart race, my secret crush.  
+    I wish I could tell you how I feel, but for now, my love for you remains a secret,  
+    hidden away in the depths of my heart.
+  </div>
 </div>
 
-<script>
-let step = 0;
-const t1 = document.getElementById("t1");
-const t2 = document.getElementById("t2");
+<!-- 🎵 Background Music -->
+<audio id="bgm" loop>
+  <source src="https://dl.dropboxusercontent.com/scl/fi/0n8p6e7co2song/co2.mp3" type="audio/mpeg">
+</audio>
 
-t1.style.opacity = 1;
+<script>
+const title = document.getElementById("title");
+const text = document.getElementById("text");
+const secret = document.getElementById("secret");
+const music = document.getElementById("bgm");
+
+const steps = [
+  {t:"Heyy Vaishnavi 👀✨", p:"I made something just for you…"},
+  {t:"So listen… 💫", p:"Are you made of magic?"},
+  {t:"Because… 😌", p:"Every time you smile, my brain forgets how to function."},
+  {t:"Wait wait 😏", p:"Is it hot in here or is it just you?"},
+  {t:"One last thing 🌙", p:"Tap once more… there’s a secret 💌"}
+];
+
+let step = 0;
+let typing = false;
+let musicStarted = false;
+
+function typeText(el, msg, speed = 40) {
+  el.innerHTML = "";
+  let i = 0;
+  typing = true;
+  const interval = setInterval(() => {
+    el.innerHTML += msg.charAt(i);
+    i++;
+    if (i === msg.length) {
+      clearInterval(interval);
+      typing = false;
+    }
+  }, speed);
+}
 
 function next() {
-  step++;
-  if (step === 1) {
-    t2.style.opacity = 1;
+  if (!musicStarted) {
+    music.play().catch(()=>{});
+    musicStarted = true;
   }
-  if (step === 2) {
-    t1.innerText = "To the girl who makes my heart full ❤️";
-    t2.innerText = "";
-  }
-  if (step === 3) {
-    t2.innerText = "May your New Year sparkle with joy ✨";
-    t2.style.opacity = 1;
-  }
-  if (step === 4) {
-    t1.innerText = "Dreams realized 🌟";
-    t2.innerText = "And endless happiness 😊";
-  }
-  if (step === 5) {
-    t1.innerText = "I love you ❤️";
-    t2.innerText = "— Keshav";
-    createHearts();
+
+  if (typing) return;
+
+  if (step < steps.length) {
+    typeText(title, steps[step].t);
+    setTimeout(() => typeText(text, steps[step].p), 600);
+    surprise();
+    step++;
+  } else {
+    secret.style.display = "block";
+    surprise();
   }
 }
 
-function createHearts() {
-  const hearts = document.getElementById("hearts");
-  setInterval(() => {
-    const h = document.createElement("div");
-    h.className = "heart";
-    h.innerHTML = "❤️";
-    h.style.left = Math.random() * 100 + "%";
-    h.style.fontSize = (20 + Math.random() * 20) + "px";
-    hearts.appendChild(h);
-    setTimeout(() => h.remove(), 6000);
-  }, 300);
+function surprise() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "💖";
+  heart.style.left = Math.random() * 100 + "%";
+  heart.style.fontSize = (20 + Math.random()*20) + "px";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
 }
+
+next(); // auto start
 </script>
 
 </body>
