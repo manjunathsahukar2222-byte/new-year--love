@@ -103,8 +103,8 @@ button:hover {
 </div>
 
 <!-- 🎵 Background Music -->
-<audio id="bgm" loop>
-  <source src="https://dl.dropboxusercontent.com/scl/fi/0n8p6e7co2song/co2.mp3" type="audio/mpeg">
+<audio id="bgm" loop preload="auto">
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -141,7 +141,13 @@ function typeText(el, msg, speed = 40) {
 
 function next() {
   if (!musicStarted) {
-    music.play().catch(()=>{});
+    music.muted = false;
+    music.volume = 0.5;
+    music.play().then(() => {
+      console.log("Music started");
+    }).catch(err => {
+      console.log("Audio blocked", err);
+    });
     musicStarted = true;
   }
 
