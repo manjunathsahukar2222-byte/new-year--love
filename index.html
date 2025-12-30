@@ -14,7 +14,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(-45deg, #ff5f9e, #ff9a9e, #fad0c4, #fbc2eb);
+  background: linear-gradient(-45deg, #ff758c, #ff7eb3, #fad0c4, #ffd1ff);
   background-size: 400% 400%;
   animation: gradientBG 12s ease infinite;
   overflow: hidden;
@@ -29,14 +29,14 @@ body {
 .container {
   text-align: center;
   color: white;
-  max-width: 720px;
-  padding: 25px;
+  max-width: 700px;
+  padding: 20px;
 }
 
 h1 {
   font-family: 'Pacifico', cursive;
-  font-size: 3em;
-  min-height: 90px;
+  font-size: 2.9em;
+  min-height: 85px;
   text-shadow: 0 0 20px rgba(255,255,255,0.7);
 }
 
@@ -47,26 +47,25 @@ p {
 
 button {
   background: white;
-  color: #ff2f7d;
+  color: #ff4d6d;
   border: none;
-  padding: 15px 36px;
+  padding: 14px 34px;
   border-radius: 40px;
-  font-size: 17px;
+  font-size: 16px;
   cursor: pointer;
   margin-top: 25px;
-  transition: all 0.3s ease;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 button:hover {
-  transform: scale(1.12);
-  box-shadow: 0 0 30px rgba(255,255,255,0.9);
+  transform: scale(1.1);
+  box-shadow: 0 0 25px rgba(255,255,255,0.9);
 }
 
-/* ❤️ Hearts rain */
+/* 💖 Hearts */
 .heart {
   position: absolute;
-  bottom: -30px;
-  font-size: 22px;
+  bottom: -20px;
   animation: floatUp 7s linear infinite;
 }
 
@@ -75,10 +74,10 @@ button:hover {
   100% { transform: translateY(-1000px) rotate(360deg); opacity: 0; }
 }
 
-/* 🎁 Surprise box */
-.surprise-box {
+/* 🎁 Surprise reveal */
+.final-surprise {
   display: none;
-  margin-top: 25px;
+  margin-top: 30px;
   padding: 25px;
   background: rgba(255,255,255,0.18);
   border-radius: 25px;
@@ -105,12 +104,16 @@ button:hover {
   <p id="text"></p>
   <button onclick="next()">Tap again 👀✨</button>
 
-  <div class="surprise-box" id="surprise">
-    <p style="font-size:1.3em;">
-      🌙✨ <br><br>
-      Log kehte hai chaand ka tukda ho tum, <br>
-      aur hum kehte hai chaand tukda hai tumhara ❤️
-    </p>
+  <!-- ORIGINAL SECRET (UNCHANGED) -->
+  <div class="final-surprise" id="final">
+    💌 <br><br>
+    You're the one who makes my heart race,  
+    I wish I could tell you how I feel, but for now, my love for you remains a secret,  
+    hidden away in the depths of my heart.
+    <br><br>
+    🌙✨<br>
+    Log kehte hai chaand ka tukda ho tum  
+    aur hum kehte hai chaand tukda hai tumhara ❤️
     <div class="signature">— from Keshav 💖</div>
   </div>
 </div>
@@ -118,14 +121,14 @@ button:hover {
 <script>
 const title = document.getElementById("title");
 const text = document.getElementById("text");
-const surpriseBox = document.getElementById("surprise");
+const final = document.getElementById("final");
 
 const steps = [
-  {t:"Heyy Vaishnavi 💖", p:"I made something special just for you…"},
-  {t:"Quick game 🎮", p:"Rule: keep tapping… but don’t smile 😉"},
-  {t:"Oops 😌", p:"Too late… I knew you’d smile."},
-  {t:"Truth time 🌸", p:"You make ordinary moments feel magical."},
-  {t:"Final surprise 🎁", p:"Tap once more… slowly 💌"}
+  {t:"Heyy Vaishnavi 👀✨", p:"I made something just for you…"},
+  {t:"So listen… 💫", p:"Are you made of magic?"},
+  {t:"Because… 😌", p:"Every time you smile, my brain forgets how to function."},
+  {t:"Wait wait 😏", p:"Is it hot in here or is it just you?"},
+  {t:"One last thing 🌙", p:"Tap once more… there’s a secret 💌"}
 ];
 
 let step = 0;
@@ -151,31 +154,24 @@ function next() {
   if (step < steps.length) {
     typeText(title, steps[step].t);
     setTimeout(() => typeText(text, steps[step].p), 600);
-    heartRain();
+    heartRain(step < 3 ? 4 : 8);
     step++;
   } else {
-    surpriseBox.style.display = "block";
-    massiveHeartRain();
+    final.style.display = "block";
+    heartRain(30); // BIG surprise rain
   }
 }
 
-/* 💖 Hearts */
-function heartRain() {
-  for (let i = 0; i < 4; i++) createHeart();
-}
-
-function massiveHeartRain() {
-  for (let i = 0; i < 25; i++) createHeart();
-}
-
-function createHeart() {
-  const heart = document.createElement("div");
-  heart.className = "heart";
-  heart.innerHTML = ["💖","💘","💝","❤️","💕"][Math.floor(Math.random()*5)];
-  heart.style.left = Math.random() * 100 + "%";
-  heart.style.fontSize = (18 + Math.random()*25) + "px";
-  document.body.appendChild(heart);
-  setTimeout(() => heart.remove(), 7000);
+function heartRain(count) {
+  for (let i = 0; i < count; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = ["💖","💘","💝","❤️","💕"][Math.floor(Math.random()*5)];
+    heart.style.left = Math.random() * 100 + "%";
+    heart.style.fontSize = (18 + Math.random()*26) + "px";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 7000);
+  }
 }
 
 /* auto start */
