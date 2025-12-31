@@ -32,17 +32,16 @@ body{
   padding:30px;
   max-width:340px;
   margin:auto;
+  cursor:pointer;
 }
 
 /* text */
 h1{
   font-family:Pacifico;
   font-size:28px;
-  min-height:70px;
 }
 p{
   font-size:18px;
-  min-height:60px;
   opacity:.9;
 }
 
@@ -71,7 +70,7 @@ p{
   margin-top:15px;
 }
 
-/* 📖 BOOK FIXED */
+/* book */
 .book{
   width:260px;
   height:360px;
@@ -80,7 +79,6 @@ p{
   cursor:pointer;
   position:relative;
 }
-
 .page{
   position:absolute;
   width:100%;
@@ -89,18 +87,12 @@ p{
   border-radius:12px;
   box-shadow:0 0 25px rgba(0,0,0,.5);
 }
-
 .cover{
   background:#c084fc;
-  z-index:2;
   transform-origin:left;
   transition:transform 1.8s ease;
 }
-
-.book.open .cover{
-  transform:rotateY(-160deg);
-}
-
+.book.open .cover{transform:rotateY(-160deg)}
 .book-content{
   padding:20px;
   color:#333;
@@ -108,12 +100,6 @@ p{
   font-size:16px;
   line-height:1.6;
   white-space:pre-line;
-  opacity:0;
-  transition:opacity 1.2s ease;
-}
-
-.book.open .book-content{
-  opacity:1;
 }
 
 /* fireworks */
@@ -134,11 +120,12 @@ p{
 
 <body>
 
-<!-- SCREEN 1 : TYPING -->
+<!-- SCREEN 1 : CLICK TEXT -->
 <div class="screen active" id="s1">
-  <div class="card">
+  <div class="card" onclick="nextText()">
     <h1 id="title"></h1>
     <p id="text"></p>
+    <small>(tap to continue)</small>
   </div>
 </div>
 
@@ -212,14 +199,14 @@ setInterval(()=>{
   setTimeout(()=>h.remove(),12000);
 },1400);
 
-/* screens */
+/* screen switch */
 function next(n){
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   document.getElementById("s"+n).classList.add("active");
   if(n===7) startInfiniteFireworks();
 }
 
-/* 🔥 REALLY SLOW TYPING */
+/* CLICK TEXT SYSTEM */
 const steps=[
   {t:"Heyy Madamjiii🩺👀✨",p:"I made something just for you…"},
   {t:"So listen… 💫",p:"Are you made of magic?"},
@@ -229,24 +216,19 @@ const steps=[
 ];
 
 let i=0;
-function type(el,msg){
-  el.innerHTML="";
-  let c=0;
-  const it=setInterval(()=>{
-    el.innerHTML+=msg[c++];
-    if(c===msg.length) clearInterval(it);
-  },110); // ✅ slowed properly
-}
+const title=document.getElementById("title");
+const text=document.getElementById("text");
 
-function startTyping(){
+function nextText(){
   if(i<steps.length){
-    type(title,steps[i].t);
-    setTimeout(()=>type(text,steps[i].p),800);
+    title.innerText=steps[i].t;
+    text.innerText=steps[i].p;
     i++;
-    setTimeout(startTyping,4200);
-  }else setTimeout(()=>next(2),1200);
+  }else{
+    next(2);
+  }
 }
-startTyping();
+nextText();
 
 /* photos */
 const photos=["photo1.jpg","photo2.jpg","photo3.jpg"];
@@ -257,7 +239,7 @@ function nextPhoto(){
   else next(5);
 }
 
-/* 📖 book (NO TYPING, TEXT VISIBLE) */
+/* book */
 const bookMessage=`
 I hope this year brings you calm mornings,
 peaceful nights,
