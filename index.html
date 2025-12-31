@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Make a Wish 🌠</title>
+<title>Heyy Madamjiii 🩺💖</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -20,56 +20,47 @@ body{
   overflow:hidden;
 }
 
-.screen{
-  display:none;
-  text-align:center;
-  padding:20px;
-}
-
-.active{display:block;}
+.screen{display:none;text-align:center;padding:20px}
+.active{display:block}
 
 .card{
-  background:rgba(255,255,255,0.15);
+  background:rgba(255,255,255,.18);
   backdrop-filter:blur(18px);
   border-radius:25px;
   padding:30px;
-  max-width:320px;
+  max-width:340px;
   margin:auto;
-  cursor:pointer;
 }
 
 h1{
   font-family:Pacifico;
-  font-size:26px;
-  margin-bottom:10px;
+  font-size:28px;
+  min-height:70px;
+}
+p{
+  font-size:18px;
+  min-height:60px;
+  opacity:.9;
 }
 
-p{opacity:.85}
-
+/* wish icon */
 .wish{
   font-size:48px;
-  margin:20px 0;
-  animation:float 2s ease-in-out infinite;
+  animation:float 2s infinite;
 }
-
 @keyframes float{
   0%{transform:translateY(0)}
   50%{transform:translateY(-10px)}
   100%{transform:translateY(0)}
 }
 
+/* gift */
 .gift{
-  width:80px;
-  height:80px;
-  background:#ff3f8e;
-  border-radius:20px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:34px;
-  margin:20px auto;
+  font-size:50px;
+  margin-top:15px;
 }
 
+/* photos */
 .photo{
   width:220px;
   max-height:300px;
@@ -79,100 +70,163 @@ p{opacity:.85}
   margin-top:15px;
 }
 
-.final{
-  animation:fade 1.4s ease;
+/* fireworks */
+.fire{
+  position:absolute;
+  width:6px;
+  height:6px;
+  background:gold;
+  border-radius:50%;
+  animation:boom 1.2s ease-out forwards;
 }
-
-@keyframes fade{
-  from{opacity:0;transform:scale(.9)}
-  to{opacity:1}
+@keyframes boom{
+  from{transform:translate(0,0);opacity:1}
+  to{transform:translate(var(--x),var(--y));opacity:0}
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🌠 SCREEN 0 : MAKE A WISH -->
+<!-- SCREEN 0 : MAKE A WISH -->
 <div class="screen active" id="s0">
   <div class="card">
     <h1>Before we begin…</h1>
-    <p>Close your eyes and make a wish 🌠</p>
+    <p>Close your eyes & make a wish 🌠</p>
     <div class="wish">✨</div>
-    <p style="opacity:.7">Swipe up when you’re ready</p>
+    <p style="opacity:.7">Swipe up when ready</p>
   </div>
 </div>
 
-<!-- SCREEN 1 -->
+<!-- SCREEN 1 : TYPING -->
 <div class="screen" id="s1">
-  <div class="card" onclick="next(2)">
-    <h1>Something is waiting for you</h1>
-    <p>Move the little distractions aside</p>
+  <div class="card">
+    <h1 id="title"></h1>
+    <p id="text"></p>
   </div>
 </div>
 
 <!-- SCREEN 2 -->
 <div class="screen" id="s2">
   <div class="card" onclick="next(3)">
-    <p>Tap the gift 🎁</p>
+    <h1>Something is waiting for you</h1>
+    <p>Tap to continue</p>
+  </div>
+</div>
+
+<!-- SCREEN 3 -->
+<div class="screen" id="s3">
+  <div class="card" onclick="next(4)">
+    <h1>Tap the gift 🎁</h1>
     <div class="gift">🎁</div>
   </div>
 </div>
 
-<!-- SCREEN 3 : PHOTOS -->
-<div class="screen" id="s3">
+<!-- SCREEN 4 : PHOTOS -->
+<div class="screen" id="s4">
   <div class="card" onclick="nextPhoto()">
     <h1>Some moments from this year</h1>
     <img id="photo" src="photo1.jpg" class="photo">
-    <p>Tap the photo to continue</p>
+    <p>Tap photo</p>
   </div>
 </div>
 
-<!-- SCREEN 4 -->
-<div class="screen" id="s4">
-  <div class="card" onclick="next(5)">
+<!-- SCREEN 5 -->
+<div class="screen" id="s5">
+  <div class="card" onclick="next(6)">
     <h1>For my Cutiepie :)</h1>
-    <p>Tap the card to read</p>
+    <p>Tap to read</p>
   </div>
 </div>
 
 <!-- FINAL -->
-<div class="screen final" id="s5">
+<div class="screen" id="s6">
   <div class="card">
     <h1>🎆 Happy New Year 2026 🎆</h1>
     <p>
       Log kehte hai chaand ka tukda ho tum<br>
       aur hum kehte hai chaand tukda hai tumhara ❤️
     </p>
-    <p style="margin-top:15px;font-family:Pacifico">
+    <p style="font-family:Pacifico;margin-top:10px">
       — from Keshav 💖
     </p>
   </div>
 </div>
 
 <script>
-/* 🌠 SWIPE UP TO START */
-let startY=0;
-document.addEventListener("touchstart",e=>startY=e.touches[0].clientY);
+/* SWIPE UP TO START */
+let sy=0;
+document.addEventListener("touchstart",e=>sy=e.touches[0].clientY);
 document.addEventListener("touchend",e=>{
-  const endY=e.changedTouches[0].clientY;
-  if(startY-endY>80){ next(1); }
+  if(sy-e.changedTouches[0].clientY>80){
+    next(1);
+    startTyping();
+  }
 });
 
-/* SCREEN NAV */
+/* SCREEN SWITCH */
 function next(n){
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   document.getElementById("s"+n).classList.add("active");
+  if(n===6) fireworks();
 }
 
-/* PHOTO SLIDER */
-const photos=["photo1.jpg","photo2.jpg","photo3.jpg"];
+/* TYPING SYSTEM (ORIGINAL TEXT) */
+const steps=[
+  {t:"Heyy Madamjiii🩺👀✨",p:"I made something just for you…"},
+  {t:"So listen… 💫",p:"Are you made of magic?"},
+  {t:"Because… 😌",p:"Every time you smile, my brain forgets how to function."},
+  {t:"Wait wait 😏",p:"Is it hot in here or is it just you?"},
+  {t:"One last thing 🌙",p:"There’s a secret 💌"}
+];
+
 let i=0;
-function nextPhoto(){
-  i++;
-  if(i<photos.length){
-    document.getElementById("photo").src=photos[i];
+const title=document.getElementById("title");
+const text=document.getElementById("text");
+
+function type(el,msg){
+  el.innerHTML="";
+  let c=0;
+  const it=setInterval(()=>{
+    el.innerHTML+=msg[c++];
+    if(c===msg.length) clearInterval(it);
+  },35);
+}
+
+function startTyping(){
+  if(i<steps.length){
+    type(title,steps[i].t);
+    setTimeout(()=>type(text,steps[i].p),400);
+    i++;
+    setTimeout(startTyping,2600);
   }else{
-    next(4);
+    setTimeout(()=>next(2),800);
+  }
+}
+
+/* PHOTOS */
+const photos=["photo1.jpg","photo2.jpg","photo3.jpg"];
+let p=0;
+function nextPhoto(){
+  p++;
+  if(p<photos.length){
+    document.getElementById("photo").src=photos[p];
+  }else{
+    next(5);
+  }
+}
+
+/* FIREWORK CRACKING */
+function fireworks(){
+  for(let i=0;i<150;i++){
+    const f=document.createElement("div");
+    f.className="fire";
+    f.style.left="50%";
+    f.style.top="50%";
+    f.style.setProperty("--x",(Math.random()*600-300)+"px");
+    f.style.setProperty("--y",(Math.random()*600-300)+"px");
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1200);
   }
 }
 </script>
