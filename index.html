@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Heyy Madammmjiii🩺💖</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -33,36 +34,46 @@ body {
   padding: 20px;
 }
 
+.card {
+  padding: 30px;
+  border-radius: 25px;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 0 40px rgba(0,0,0,0.4);
+}
+
 h1 {
   font-family: 'Pacifico', cursive;
-  font-size: 2.9em;
-  min-height: 85px;
+  font-size: 2.5em;
+  min-height: 80px;
   text-shadow: 0 0 20px rgba(255,255,255,0.7);
 }
 
 p {
   font-size: 1.4em;
-  min-height: 80px;
+  min-height: 70px;
 }
 
-button {
-  background: white;
-  color: #ff4d6d;
-  border: none;
-  padding: 14px 34px;
-  border-radius: 40px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 25px;
-  transition: transform 0.3s, box-shadow 0.3s;
+.hold-heart {
+  width: 90px;
+  height: 90px;
+  margin: 20px auto;
+  border-radius: 50%;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  animation: pulse 1.5s infinite;
 }
 
-button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 25px rgba(255,255,255,0.9);
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
 }
 
-/* 💖 Hearts */
+/* Floating hearts */
 .heart {
   position: absolute;
   bottom: -20px;
@@ -74,7 +85,7 @@ button:hover {
   100% { transform: translateY(-1000px) rotate(360deg); opacity: 0; }
 }
 
-/* 🎁 Surprise reveal */
+/* Final surprise */
 .final-surprise {
   display: none;
   margin-top: 30px;
@@ -99,16 +110,26 @@ button:hover {
 
 <body>
 
-<div class="container">
+<!-- INTRO SCREEN -->
+<div class="container" id="introCard">
+  <div class="card">
+    <h1>A little surprise for you</h1>
+    <p>Before this year begins</p>
+    <div class="hold-heart" id="holdHeart">❤️</div>
+    <span>Tap and hold</span>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container" id="mainContent" style="display:none;">
   <h1 id="title"></h1>
   <p id="text"></p>
-  <button onclick="next()">Tap again 👀✨</button>
 
-  <!-- ORIGINAL SECRET (UNCHANGED) -->
   <div class="final-surprise" id="final">
     💌 <br><br>
     You're the one who makes my heart race,  
-    I wish I could tell you how I feel, but for now, Happy New Year,Your presence in my life is a constant source of joy and inspiration.
+    I wish I could tell you how I feel, but for now, Happy New Year.  
+    Your presence in my life is a constant source of joy and inspiration.
     <br><br>
     🌙✨<br>
     Log kehte hai chaand ka tukda ho tum  
@@ -118,16 +139,43 @@ button:hover {
 </div>
 
 <script>
+const intro = document.getElementById("introCard");
+const main = document.getElementById("mainContent");
+const holdHeart = document.getElementById("holdHeart");
+
 const title = document.getElementById("title");
 const text = document.getElementById("text");
 const final = document.getElementById("final");
 
+let holdTimer;
+
+// TAP & HOLD LOGIC
+holdHeart.addEventListener("touchstart", startHold);
+holdHeart.addEventListener("mousedown", startHold);
+
+holdHeart.addEventListener("touchend", cancelHold);
+holdHeart.addEventListener("mouseup", cancelHold);
+holdHeart.addEventListener("mouseleave", cancelHold);
+
+function startHold() {
+  holdTimer = setTimeout(() => {
+    intro.style.display = "none";
+    main.style.display = "block";
+    next();
+  }, 1200);
+}
+
+function cancelHold() {
+  clearTimeout(holdTimer);
+}
+
+// STORY STEPS
 const steps = [
   {t:"Heyy Madamjiii🩺👀✨", p:"I made something just for you…"},
   {t:"So listen… 💫", p:"Are you made of magic?"},
   {t:"Because… 😌", p:"Every time you smile, my brain forgets how to function."},
   {t:"Wait wait 😏", p:"Is it hot in here or is it just you?"},
-  {t:"One last thing 🌙", p:"Tap once more… there’s a secret 💌"}
+  {t:"One last thing 🌙", p:"There’s a secret 💌"}
 ];
 
 let step = 0;
@@ -155,9 +203,10 @@ function next() {
     setTimeout(() => typeText(text, steps[step].p), 600);
     heartRain(step < 3 ? 4 : 8);
     step++;
+    setTimeout(next, 2600);
   } else {
     final.style.display = "block";
-    heartRain(30); // BIG surprise rain
+    heartRain(30);
   }
 }
 
@@ -172,9 +221,6 @@ function heartRain(count) {
     setTimeout(() => heart.remove(), 7000);
   }
 }
-
-/* auto start */
-next();
 </script>
 
 </body>
