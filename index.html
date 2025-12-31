@@ -46,12 +46,16 @@ p{
   opacity:.9;
 }
 
-/* wish */
-.wish{font-size:48px;animation:float 2s infinite}
-@keyframes float{
-  0%{transform:translateY(0)}
-  50%{transform:translateY(-10px)}
-  100%{transform:translateY(0)}
+/* hearts */
+.heart-float{
+  position:absolute;
+  bottom:-20px;
+  opacity:.6;
+  animation:heartUp 12s linear infinite;
+}
+@keyframes heartUp{
+  from{transform:translateY(0) scale(1)}
+  to{transform:translateY(-110vh) scale(1.4);opacity:0}
 }
 
 /* gift */
@@ -67,14 +71,16 @@ p{
   margin-top:15px;
 }
 
-/* book */
+/* 📖 BOOK FIXED */
 .book{
   width:260px;
   height:360px;
-  perspective:1000px;
+  perspective:1200px;
   margin:auto;
   cursor:pointer;
+  position:relative;
 }
+
 .page{
   position:absolute;
   width:100%;
@@ -83,32 +89,31 @@ p{
   border-radius:12px;
   box-shadow:0 0 25px rgba(0,0,0,.5);
 }
-.left{background:#c084fc}
-.right{
+
+.cover{
+  background:#c084fc;
+  z-index:2;
   transform-origin:left;
   transition:transform 1.8s ease;
-  padding:20px;
-  overflow:hidden;
 }
-.book.open .right{transform:rotateY(-160deg)}
-.book-text{
-  font-family:Pacifico;
+
+.book.open .cover{
+  transform:rotateY(-160deg);
+}
+
+.book-content{
+  padding:20px;
   color:#333;
+  font-family:Pacifico;
   font-size:16px;
   line-height:1.6;
   white-space:pre-line;
+  opacity:0;
+  transition:opacity 1.2s ease;
 }
 
-/* hearts */
-.heart-float{
-  position:absolute;
-  bottom:-20px;
-  opacity:.6;
-  animation:heartUp 10s linear infinite;
-}
-@keyframes heartUp{
-  from{transform:translateY(0) scale(1);opacity:.6}
-  to{transform:translateY(-110vh) scale(1.4);opacity:0}
+.book.open .book-content{
+  opacity:1;
 }
 
 /* fireworks */
@@ -129,18 +134,8 @@ p{
 
 <body>
 
-<!-- SCREEN 0 -->
-<div class="screen active" id="s0">
-  <div class="card">
-    <h1>Before we begin…</h1>
-    <p>Close your eyes & make a wish 🌠</p>
-    <div class="wish">✨</div>
-    <p style="opacity:.7">Swipe up when ready</p>
-  </div>
-</div>
-
-<!-- SCREEN 1 -->
-<div class="screen" id="s1">
+<!-- SCREEN 1 : TYPING -->
+<div class="screen active" id="s1">
   <div class="card">
     <h1 id="title"></h1>
     <p id="text"></p>
@@ -180,12 +175,12 @@ p{
   </div>
 </div>
 
-<!-- SCREEN 6 -->
+<!-- SCREEN 6 : BOOK -->
 <div class="screen" id="s6">
   <div class="book" onclick="openBook()">
-    <div class="page left"></div>
-    <div class="page right">
-      <div class="book-text" id="bookText"></div>
+    <div class="page cover"></div>
+    <div class="page">
+      <div class="book-content" id="bookText"></div>
     </div>
   </div>
   <p style="opacity:.7;margin-top:15px">Tap the book to open</p>
@@ -207,27 +202,15 @@ p{
 
 <script>
 /* hearts from start */
-function startHearts(){
-  setInterval(()=>{
-    const h=document.createElement("div");
-    h.className="heart-float";
-    h.innerHTML=["💗","💖","💕","💘"][Math.floor(Math.random()*4)];
-    h.style.left=Math.random()*100+"%";
-    h.style.fontSize=(14+Math.random()*12)+"px";
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(),10000);
-  },1200);
-}
-startHearts();
-
-/* swipe */
-let sy=0;
-document.addEventListener("touchstart",e=>sy=e.touches[0].clientY);
-document.addEventListener("touchend",e=>{
-  if(sy-e.changedTouches[0].clientY>80){
-    next(1); startTyping();
-  }
-});
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart-float";
+  h.innerHTML=["💗","💖","💕","💘"][Math.floor(Math.random()*4)];
+  h.style.left=Math.random()*100+"%";
+  h.style.fontSize=(14+Math.random()*12)+"px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),12000);
+},1400);
 
 /* screens */
 function next(n){
@@ -236,7 +219,7 @@ function next(n){
   if(n===7) startInfiniteFireworks();
 }
 
-/* typing (SLOW) */
+/* 🔥 REALLY SLOW TYPING */
 const steps=[
   {t:"Heyy Madamjiii🩺👀✨",p:"I made something just for you…"},
   {t:"So listen… 💫",p:"Are you made of magic?"},
@@ -244,21 +227,26 @@ const steps=[
   {t:"Wait wait 😏",p:"Is it hot in here or is it just you?"},
   {t:"One last thing 🌙",p:"There’s a secret 💌"}
 ];
+
 let i=0;
 function type(el,msg){
-  el.innerHTML=""; let c=0;
+  el.innerHTML="";
+  let c=0;
   const it=setInterval(()=>{
     el.innerHTML+=msg[c++];
     if(c===msg.length) clearInterval(it);
-  },70);
+  },110); // ✅ slowed properly
 }
+
 function startTyping(){
   if(i<steps.length){
     type(title,steps[i].t);
-    setTimeout(()=>type(text,steps[i].p),500);
-    i++; setTimeout(startTyping,3000);
-  }else setTimeout(()=>next(2),1000);
+    setTimeout(()=>type(text,steps[i].p),800);
+    i++;
+    setTimeout(startTyping,4200);
+  }else setTimeout(()=>next(2),1200);
 }
+startTyping();
 
 /* photos */
 const photos=["photo1.jpg","photo2.jpg","photo3.jpg"];
@@ -269,7 +257,7 @@ function nextPhoto(){
   else next(5);
 }
 
-/* book */
+/* 📖 book (NO TYPING, TEXT VISIBLE) */
 const bookMessage=`
 I hope this year brings you calm mornings,
 peaceful nights,
@@ -283,29 +271,21 @@ supported, valued, and understood.
 May every challenge turn
 into strength.
 `;
+
 let opened=false;
 function openBook(){
   if(opened) return;
   opened=true;
   document.querySelector(".book").classList.add("open");
-  setTimeout(()=>{
-    slowType(bookText,bookMessage,90);
-    startInfiniteFireworks();
-    setTimeout(()=>next(7),14000);
-  },1200);
-}
-function slowType(el,msg,s){
-  let i=0; el.innerHTML="";
-  const it=setInterval(()=>{
-    el.innerHTML+=msg[i++];
-    if(i===msg.length) clearInterval(it);
-  },s);
+  document.getElementById("bookText").innerText=bookMessage;
+  startInfiniteFireworks();
+  setTimeout(()=>next(7),12000);
 }
 
 /* fireworks */
 function startInfiniteFireworks(){
   setInterval(()=>{
-    for(let i=0;i<60;i++){
+    for(let i=0;i<70;i++){
       const f=document.createElement("div");
       f.className="fire";
       f.style.left=Math.random()*100+"%";
