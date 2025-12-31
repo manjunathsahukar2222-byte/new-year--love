@@ -3,223 +3,173 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Heyy Madammmjiii🩺💖</title>
+<title>Happy New Year ❤️</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-body {
-  margin: 0;
-  height: 100vh;
-  font-family: 'Poppins', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(-45deg, #ff758c, #ff7eb3, #fad0c4, #ffd1ff);
-  background-size: 400% 400%;
-  animation: gradientBG 12s ease infinite;
-  overflow: hidden;
+body{
+  margin:0;
+  height:100vh;
+  font-family:Poppins,sans-serif;
+  background:radial-gradient(circle at top,#2b1055,#000);
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
 }
 
-@keyframes gradientBG {
-  0% {background-position: 0% 50%;}
-  50% {background-position: 100% 50%;}
-  100% {background-position: 0% 50%;}
+.screen{
+  display:none;
+  text-align:center;
+  padding:20px;
 }
 
-.container {
-  text-align: center;
-  color: white;
-  max-width: 700px;
-  padding: 20px;
+.active{display:block;}
+
+.card{
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(18px);
+  border-radius:25px;
+  padding:30px;
+  max-width:320px;
+  margin:auto;
+  cursor:pointer;
 }
 
-.card {
-  padding: 30px;
-  border-radius: 25px;
-  background: rgba(255,255,255,0.18);
-  backdrop-filter: blur(18px);
-  box-shadow: 0 0 40px rgba(0,0,0,0.4);
+h1{
+  font-family:Pacifico;
+  font-size:26px;
+  margin-bottom:10px;
 }
 
-h1 {
-  font-family: 'Pacifico', cursive;
-  font-size: 2.5em;
-  min-height: 80px;
-  text-shadow: 0 0 20px rgba(255,255,255,0.7);
+p{opacity:.85}
+
+.heart{
+  width:90px;
+  height:90px;
+  border:2px solid white;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:36px;
+  margin:20px auto;
+  animation:pulse 1.4s infinite;
 }
 
-p {
-  font-size: 1.4em;
-  min-height: 70px;
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.15)}
+  100%{transform:scale(1)}
 }
 
-.hold-heart {
-  width: 90px;
-  height: 90px;
-  margin: 20px auto;
-  border-radius: 50%;
-  border: 2px solid white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 36px;
-  animation: pulse 1.5s infinite;
+.gift{
+  width:80px;
+  height:80px;
+  background:#ff3f8e;
+  border-radius:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:34px;
+  margin:20px auto;
 }
 
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.15); }
-  100% { transform: scale(1); }
+.photo{
+  width:220px;
+  border-radius:20px;
+  margin-top:15px;
 }
 
-/* Floating hearts */
-.heart {
-  position: absolute;
-  bottom: -20px;
-  animation: floatUp 7s linear infinite;
+.final{
+  animation:fade 1.4s ease;
 }
 
-@keyframes floatUp {
-  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-  100% { transform: translateY(-1000px) rotate(360deg); opacity: 0; }
-}
-
-/* Final surprise */
-.final-surprise {
-  display: none;
-  margin-top: 30px;
-  padding: 25px;
-  background: rgba(255,255,255,0.18);
-  border-radius: 25px;
-  animation: pop 1.5s ease forwards;
-}
-
-@keyframes pop {
-  from {opacity: 0; transform: scale(0.6);}
-  to {opacity: 1; transform: scale(1);}
-}
-
-.signature {
-  margin-top: 18px;
-  font-family: 'Pacifico', cursive;
-  font-size: 1.6em;
+@keyframes fade{
+  from{opacity:0;transform:scale(.9)}
+  to{opacity:1}
 }
 </style>
 </head>
 
 <body>
 
-<!-- INTRO SCREEN -->
-<div class="container" id="introCard">
+<!-- SCREEN 0 : TAP & HOLD -->
+<div class="screen active" id="s0">
   <div class="card">
     <h1>A little surprise for you</h1>
     <p>Before this year begins</p>
-    <div class="hold-heart" id="holdHeart">❤️</div>
-    <span>Tap and hold</span>
+    <div class="heart" id="hold">❤️</div>
+    <p>Tap and hold</p>
   </div>
 </div>
 
-<!-- MAIN CONTENT -->
-<div class="container" id="mainContent" style="display:none;">
-  <h1 id="title"></h1>
-  <p id="text"></p>
+<!-- SCREEN 1 -->
+<div class="screen" id="s1">
+  <div class="card" onclick="next(2)">
+    <h1>Something is waiting for you</h1>
+    <p>Move the little distractions aside</p>
+  </div>
+</div>
 
-  <div class="final-surprise" id="final">
-    💌 <br><br>
-    You're the one who makes my heart race,  
-    I wish I could tell you how I feel, but for now, Happy New Year.  
-    Your presence in my life is a constant source of joy and inspiration.
-    <br><br>
-    🌙✨<br>
-    Log kehte hai chaand ka tukda ho tum  
-    aur hum kehte hai chaand tukda hai tumhara ❤️
-    <div class="signature">— from Keshav 💖</div>
+<!-- SCREEN 2 -->
+<div class="screen" id="s2">
+  <div class="card" onclick="next(3)">
+    <p>Tap the gift 🎁</p>
+    <div class="gift">🎁</div>
+  </div>
+</div>
+
+<!-- SCREEN 3 -->
+<div class="screen" id="s3">
+  <div class="card" onclick="next(4)">
+    <h1>Some moments from this year</h1>
+    <img src="https://i.imgur.com/8QfQK9S.png" class="photo">
+    <p>Tap the photo to continue</p>
+  </div>
+</div>
+
+<!-- SCREEN 4 -->
+<div class="screen" id="s4">
+  <div class="card" onclick="next(5)">
+    <h1>For my Cutiepie :)</h1>
+    <p>Tap the card to read</p>
+  </div>
+</div>
+
+<!-- FINAL SCREEN -->
+<div class="screen final" id="s5">
+  <div class="card">
+    <h1>🎆 Happy New Year 2026 🎆</h1>
+    <p>
+      Log kehte hai chaand ka tukda ho tum<br>
+      aur hum kehte hai chaand tukda hai tumhara ❤️
+    </p>
+    <p style="margin-top:15px;font-family:Pacifico">
+      — from Keshav 💖
+    </p>
   </div>
 </div>
 
 <script>
-const intro = document.getElementById("introCard");
-const main = document.getElementById("mainContent");
-const holdHeart = document.getElementById("holdHeart");
+let timer;
+const hold=document.getElementById("hold");
 
-const title = document.getElementById("title");
-const text = document.getElementById("text");
-const final = document.getElementById("final");
+hold.addEventListener("touchstart",start);
+hold.addEventListener("mousedown",start);
+hold.addEventListener("touchend",stop);
+hold.addEventListener("mouseup",stop);
 
-let holdTimer;
-
-// TAP & HOLD LOGIC
-holdHeart.addEventListener("touchstart", startHold);
-holdHeart.addEventListener("mousedown", startHold);
-
-holdHeart.addEventListener("touchend", cancelHold);
-holdHeart.addEventListener("mouseup", cancelHold);
-holdHeart.addEventListener("mouseleave", cancelHold);
-
-function startHold() {
-  holdTimer = setTimeout(() => {
-    intro.style.display = "none";
-    main.style.display = "block";
-    next();
-  }, 1200);
+function start(){
+  timer=setTimeout(()=>next(1),1200);
 }
+function stop(){clearTimeout(timer)}
 
-function cancelHold() {
-  clearTimeout(holdTimer);
-}
-
-// STORY STEPS
-const steps = [
-  {t:"Heyy Madamjiii🩺👀✨", p:"I made something just for you…"},
-  {t:"So listen… 💫", p:"Are you made of magic?"},
-  {t:"Because… 😌", p:"Every time you smile, my brain forgets how to function."},
-  {t:"Wait wait 😏", p:"Is it hot in here or is it just you?"},
-  {t:"One last thing 🌙", p:"There’s a secret 💌"}
-];
-
-let step = 0;
-let typing = false;
-
-function typeText(el, msg, speed = 35) {
-  el.innerHTML = "";
-  let i = 0;
-  typing = true;
-  const interval = setInterval(() => {
-    el.innerHTML += msg.charAt(i);
-    i++;
-    if (i === msg.length) {
-      clearInterval(interval);
-      typing = false;
-    }
-  }, speed);
-}
-
-function next() {
-  if (typing) return;
-
-  if (step < steps.length) {
-    typeText(title, steps[step].t);
-    setTimeout(() => typeText(text, steps[step].p), 600);
-    heartRain(step < 3 ? 4 : 8);
-    step++;
-    setTimeout(next, 2600);
-  } else {
-    final.style.display = "block";
-    heartRain(30);
-  }
-}
-
-function heartRain(count) {
-  for (let i = 0; i < count; i++) {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = ["💖","💘","💝","❤️","💕"][Math.floor(Math.random()*5)];
-    heart.style.left = Math.random() * 100 + "%";
-    heart.style.fontSize = (18 + Math.random()*26) + "px";
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 7000);
-  }
+function next(n){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById("s"+n).classList.add("active");
 }
 </script>
 
